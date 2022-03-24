@@ -24,8 +24,10 @@ export class AppComponent {
       this.employeeName = '';
       this.employeeAge = undefined;
       this.employeeAddress = '';
-      console.log(res);
       this.message = 'Employee date save done';
+      setInterval(() => {
+        this.message = '';
+      }, 5000)
     }).catch(error => {
       console.log(error)
     });
