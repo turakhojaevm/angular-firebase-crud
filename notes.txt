@@ -1,0 +1,50 @@
+1. Create firebase project
+2. Create realtime-database in firebase
+3. Create firestore-database in firebase
+4. Create employee collection in firesotre
+5. Create angular project
+6. In environment files copy API keys
+7. Install firebase modules npm i @angular/fire
+8. Import all firebase modules in app.module.ts
+	AngularFireModule
+	AngularFireDatabaseModule
+	AngularFireStorageModule
+9. Import environment file in app.module.ts
+10. Add API keys in app.module.ts AngularFireModule.initializeApp(environment.firebaseConfig)
+11. Create html template
+12. Create service
+13. Import AngularFirestorein service and inject in constructor
+14. Create a service method for creating employee
+	create_NewEmployee(employee) {
+		return this.angularFire.collection('COLLECTION_NAME').add(employee);
+	}
+	// COLLECTION_NAME - from employee collection in firesotre
+15. Import service in app.module.ts
+16. In template create click function to create a new employee
+17. From input values create object and two way data biding
+	let Record = {name: this.employeeName, age: this.employeeAge, address: this.employeeAddress};
+18. Call service in app.component.ts
+	CreateRecord() {
+    	 let Record = {name: this.employeeName, age: this.employeeAge, address: this.employeeAddress};
+
+       	 this.crudService.create_Newemployee(Record).then((res: any) => {
+           this.employeeName = '';
+           this.employeeAge = undefined;
+           this.employeeAddress = '';
+           console.log(res);
+           this.message = 'Employee date save done';
+         }).catch(error => {
+           console.log(error)
+         });
+       }
+	// then and catch are promise
+
+
+
+
+
+
+
+
+
+
