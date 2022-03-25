@@ -20,4 +20,56 @@
   <div class="form-grouop">
     <h4>{{ message }}</h4>
   </div>
+
+  <div class="row p-2">
+    <div class="col-md-12 mb-3">
+      <h4>All Employee Data</h4>
+    </div>
+    <div class="col-md-3" *ngFor="let item of employee">
+      <div class="card mb-3" *ngIf="!item.isEdit; else elseBlock">
+        <div class="card-body">
+          <div class="card-title">
+            Name: {{ item.name }}
+          </div>
+          <div class="card-subtitle">
+            Age: {{ item.age }}
+          </div>
+          <div class="card-text">
+            Address: {{ item.address }}
+          </div>
+          <a href="#" (click)="EditRecord(item)" class="btn btn-primary">Edit Employee</a>
+          <a href="#" (click)="DeleteEmployee(item.id)" class="btn btn-danger">Delete Employee</a>
+        </div>
+      </div>
+
+      <ng-template #elseBlock>
+        <div class="card mb-3">
+          <div class="card-body">
+            <div class="card-title">
+              Edit Employee
+            </div>
+            <div class="row">
+              <div class="form-group">
+                <div class="col-md-12">
+                  <input type="text" [(ngModel)]="item.editname" class="form-control">
+                </div>
+                <div class="col-md-12">
+                  <input type="number" [(ngModel)]="item.editage" class="form-control">
+                </div>
+                <div class="col-md-12">
+                  <input type="text" [(ngModel)]="item.address" class="form-control">
+                </div>
+              </div>
+            </div>
+
+            <a href="#" class="btn btn-danger" (click)="item.isEdit = false">Cancel</a>
+            <a href="#" class="btn btn-primary" (click)="Updaterecord(item)">Update</a>
+
+          </div>
+        </div>
+      </ng-template>
+
+    </div>
+  </div>
+
 </div>

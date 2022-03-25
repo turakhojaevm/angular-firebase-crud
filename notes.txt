@@ -13,7 +13,7 @@
 10. Add API keys in app.module.ts AngularFireModule.initializeApp(environment.firebaseConfig)
 11. Create html template
 12. Create service
-13. Import AngularFirestorein service and inject in constructor
+13. Import AngularFirestore in service and inject in constructor
 14. Create a service method for creating employee
 	create_NewEmployee(employee) {
 		return this.angularFire.collection('COLLECTION_NAME').add(employee);
@@ -38,9 +38,65 @@
          });
        }
 	// then and catch are promise
+19. To get employees data create a service method
+	get_Appemployee() {
+         return this.angularFirestore.collection('Employee').snapshotChanges();
+        }
+20. To show data in template use this below code.
+	this.crudService.get_Appemployee().subscribe(data => {
+         this.employee = data.map(e => e.payload.doc.data());
+         console.log(this.employee);
+        });
+21. To create employee follow this stapes
+	1. Add isEdit: true in employee object
+	2. Add  *ngIf="!item.isEdit; else elseBlock" in card
+	3. <ng-template #elseBlock>
+        <div class="card mb-3">
+          <div class="card-body">
+            <div class="card-title">
+              Edit Employee
+            </div>
+            <div class="row">
+              <div class="form-group">
+                <div class="col-md-12">
+                  <input type="text" [(ngModel)]="item.editname" class="form-control">
+                </div>
+                <div class="col-md-12">
+                  <input type="number" [(ngModel)]="item.editage" class="form-control">
+                </div>
+                <div class="col-md-12">
+                  <input type="text" [(ngModel)]="item.address" class="form-control">
+                </div>
+              </div>
+            </div>
 
+            <a href="#" class="btn btn-danger" (click)="item.isEdit = false">Cancel</a>
+            <a href="#" class="btn btn-primary" (click)="Updaterecord(item)">Update</a>
 
+          </div>
+        </div>
+      </ng-template>
 
+22. Create Cancel function put this condition item.isEdit = false
+23. Create Updaterecord function Updaterecord(recordData: any) {
+    let record = {name: recordData.editname, age: recordData.editage, address: recordData.addresss};
+    this.crudService.update_employee(recordData.id, record);
+    recordData.isEdit = false;
+  }
+24. Update service
+	update_employee(recordid: any, record: any) {
+         this.angularFirestore.doc('Employee/' + recordid).update(record);
+        }
+25. Create Delete function DeleteEmployee
+	DeleteEmployee(recordId: any) {
+          alert('Are you shure to delete this record?');
+          this.crudService.deleteRecord(recordId);
+        }
+26. Create delete service
+	deleteRecord(recordId: any) {
+         this.angularFirestore.doc('Employee/' + recordId).delete();
+        }
+27. Last step push changes in github!
 
 
 

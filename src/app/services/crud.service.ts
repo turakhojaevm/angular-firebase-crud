@@ -6,10 +6,22 @@ import {AngularFirestore} from '@angular/fire/compat/firestore';
 })
 export class CrudService {
 
-  constructor(private angularFire: AngularFirestore) { }
+  constructor(private angularFirestore: AngularFirestore) { }
 
   create_Newemployee(Record: any) {
-    return this.angularFire.collection('Employee').add(Record);
+    return this.angularFirestore.collection('Employee').add(Record);
+  }
+
+  get_Appemployee() {
+    return this.angularFirestore.collection('Employee').snapshotChanges();
+  }
+
+  update_employee(recordid: any, record: any) {
+    this.angularFirestore.doc('Employee/' + recordid).update(record);
+  }
+
+  deleteRecord(recordId: any) {
+    this.angularFirestore.doc('Employee/' + recordId).delete();
   }
 
 
